@@ -1,7 +1,9 @@
 package com.rafarocar.albumlist.feature_albumList.data.repository
 
-import com.rafarocar.albumlist.feature_albumList.data.api.AlbumApi
-import com.rafarocar.albumlist.feature_albumList.data.model.toDomain
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import com.rafarocar.albumlist.feature_albumList.data.remote.AlbumApi
+import com.rafarocar.albumlist.feature_albumList.data.paging.AlbumPagingSource
 import com.rafarocar.albumlist.feature_albumList.domain.model.Album
 import com.rafarocar.albumlist.feature_albumList.domain.repository.AlbumRepository
 import javax.inject.Inject
@@ -12,7 +14,10 @@ class AlbumRepositoryImpl @Inject constructor(
     private val api: AlbumApi
 ) : AlbumRepository {
 
-    override suspend fun getAlbums(): List<Album> {
-        return api.getAlbums().map { it.toDomain() }
+    override fun getAlbums(): Pager<Int, Album> {
+        return Pager(
+            config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+            pagingSourceFactory = { AlbumPagingSource(api) }
+        )
     }
 }

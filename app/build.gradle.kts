@@ -61,6 +61,7 @@ dependencies {
 
     //DI
     implementation(libs.dagger.hilt.android)
+    implementation(libs.androidx.paging.common)
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
@@ -77,6 +78,15 @@ dependencies {
 
     // Coil
     implementation(libs.coil.compose)
+
+    // Paging
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
+
+    // Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

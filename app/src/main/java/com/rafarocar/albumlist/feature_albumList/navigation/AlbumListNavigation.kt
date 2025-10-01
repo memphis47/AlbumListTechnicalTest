@@ -5,8 +5,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.rafarocar.albumlist.feature_albumList.ui.AlbumListScreen
-import com.rafarocar.albumlist.feature_albumList.ui.AlbumListViewModel
+import com.rafarocar.albumlist.feature_albumList.presentation.AlbumListScreen
+import com.rafarocar.albumlist.feature_albumList.presentation.AlbumListViewModel
 
 // Graph routes
 const val ALBUM_LIST_GRAPH_ROUTE = "album_list_graph"

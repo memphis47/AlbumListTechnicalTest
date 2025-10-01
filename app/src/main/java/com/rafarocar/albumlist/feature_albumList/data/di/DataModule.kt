@@ -1,6 +1,6 @@
 package com.rafarocar.albumlist.feature_albumList.data.di
 
-import com.rafarocar.albumlist.feature_albumList.data.api.AlbumApi
+import com.rafarocar.albumlist.feature_albumList.data.remote.AlbumApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

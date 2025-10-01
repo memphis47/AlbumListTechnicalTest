@@ -1,6 +1,5 @@
-package com.rafarocar.albumlist.feature_albumList.data.api
+package com.rafarocar.albumlist.feature_albumList.data.remote
 
-import com.rafarocar.albumlist.feature_albumList.data.model.AlbumDTO
 import retrofit2.http.GET
 
 interface AlbumApi {

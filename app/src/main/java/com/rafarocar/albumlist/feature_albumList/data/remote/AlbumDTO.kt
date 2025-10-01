@@ -1,4 +1,4 @@
-package com.rafarocar.albumlist.feature_albumList.data.model
+package com.rafarocar.albumlist.feature_albumList.data.remote
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
