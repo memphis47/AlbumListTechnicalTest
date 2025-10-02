@@ -19,6 +19,9 @@ paging-version = "3.3.6"
 paging-compose-version = "3.3.6"
 pagingCommon = "3.3.6"
 room = "2.8.1"
+mockk = "1.14.5"
+kotlinx-coroutines-test-version = "1.10.2"
+turbine-version = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -66,13 +69,23 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 # Paging
 paging-runtime = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging-version" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging-compose-version" }
-androidx-paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "pagingCommon" }
+paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "pagingCommon" }
 
 # Room
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
+
+# MockK
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+
+# Coroutines-Test
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test-version" }
+
+# Turbine (Flow Test)
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine-version" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

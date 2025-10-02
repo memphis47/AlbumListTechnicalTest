@@ -36,7 +36,7 @@ class AlbumListViewModel @Inject constructor(
     private val _state = MutableStateFlow(AlbumListState())
     val state: StateFlow<AlbumListState> = _state.asStateFlow()
 
-    private val _effect = MutableSharedFlow<AlbumListEffect>()
+    private val _effect = MutableSharedFlow<AlbumListEffect>(replay = 1)
     val effect: SharedFlow<AlbumListEffect> = _effect.asSharedFlow()
 
 
