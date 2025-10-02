@@ -12,6 +12,9 @@ import com.rafarocar.albumlist.app.navigation.AppNavHost
 import com.rafarocar.albumlist.ui.theme.AlbumListTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Main activity of the app
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

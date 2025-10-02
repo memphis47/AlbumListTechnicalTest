@@ -1,13 +1,11 @@
 package com.rafarocar.albumlist.feature_albumList.presentation
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,7 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -25,11 +22,9 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -41,41 +36,54 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.rafarocar.albumlist.feature_albumList.domain.model.Album
-import java.net.URLEncoder
-import androidx.paging.compose.collectAsLazyPagingItems
+import com.rafarocar.albumlist.feature_albumList.presentation.intents.AlbumListIntent
 
+/**
+ * Screen to handle the states of pagination and decide which screen to show
+ * Can show a loading screen, an empty screen or the list of albums
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlbumListScreen(
     albumListViewModel: AlbumListViewModel,
-    navController: NavController
+    onInfoClick: (String) -> Unit
 ) {
 
-    val lazyAlbums = albumListViewModel.albums.collectAsLazyPagingItems()
+    albumListViewModel.retrieveAlbums()?.let { albums ->
+        val state by albumListViewModel.state.collectAsState()
+        val lazyAlbums = albums.collectAsLazyPagingItems()
 
-    Scaffold(
-    ) { paddingValues ->
-        when (lazyAlbums.loadState.refresh) {
-            is LoadState.Loading -> {
-                LoadingScreen()
-            }
+        Scaffold(
+        ) { paddingValues ->
+            when (lazyAlbums.loadState.refresh) {
+                is LoadState.Loading -> {
+                    LoadingScreen()
+                }
 
-            is LoadState.Error -> {
-                EmptyAlbums(albumListViewModel)
-            }
+                is LoadState.Error -> {
+                    if (lazyAlbums.itemCount == 0) {
+                        EmptyAlbums(viewModel = albumListViewModel)
+                    } else {
+                        AlbumList(paddingValues, lazyAlbums, onInfoClick)
+                    }
+                }
 
-            else -> {
-                AlbumList(paddingValues, lazyAlbums, navController)
+                else -> {
+                    AlbumList(paddingValues, lazyAlbums, onInfoClick)
+                }
             }
         }
-    }
+    } ?: EmptyAlbums(viewModel = albumListViewModel)
 }
 
+/**
+ * Screen to show a loading indicator
+ */
 @Composable
 fun LoadingScreen() {
     Box(
@@ -84,9 +92,12 @@ fun LoadingScreen() {
     ) { CircularProgressIndicator() }
 }
 
+/**
+ * Screen to show a message when there are no albums with a button to call the API again
+ */
 @Composable
 fun EmptyAlbums(
-    albumListViewModel: AlbumListViewModel
+    viewModel: AlbumListViewModel
 ) {
     Box(
         modifier = Modifier
@@ -125,6 +136,7 @@ fun EmptyAlbums(
 
             Button(
                 onClick = {
+                    viewModel.handleIntent(AlbumListIntent.LoadAlbums)
                 },
                 colors = ButtonDefaults.buttonColors(
                     contentColor = Color.White
@@ -136,11 +148,14 @@ fun EmptyAlbums(
     }
 }
 
+/**
+ * Screen to show the list of albums
+ */
 @Composable
 private fun AlbumList(
     paddingValues: PaddingValues,
     lazyAlbums: LazyPagingItems<Album>,
-    navController: NavController
+    onInfoClick: (String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -149,7 +164,10 @@ private fun AlbumList(
     ) {
         items(lazyAlbums.itemCount) { index ->
             lazyAlbums[index]?.let { album ->
-                AlbumItem(album, navController)
+                AlbumItem(
+                    album = album,
+                    onInfoClick = onInfoClick
+                )
             }
         }
 
@@ -162,6 +180,9 @@ private fun AlbumList(
 
 }
 
+/**
+ * Screen to show a loading indicator when retrieving other items
+ */
 @Composable
 fun LoadingItem() {
     Box(
@@ -174,8 +195,11 @@ fun LoadingItem() {
     }
 }
 
+/**
+ * Item to show in the list of albums
+ */
 @Composable
-fun AlbumItem(album: Album, navController: NavController) {
+fun AlbumItem(album: Album, onInfoClick: (String) -> Unit) {
     Card(
         modifier = Modifier
             .padding(8.dp),
@@ -220,25 +244,10 @@ fun AlbumItem(album: Album, navController: NavController) {
                             textDecoration = TextDecoration.Underline
                         ),
                         modifier = Modifier.clickable {
-                            val encodedUrl = URLEncoder.encode(album.url, "UTF-8")
-                            navController.navigate("albumDetail/$encodedUrl")
+                            onInfoClick(album.url)
                         }
                     )
                 }
-            }
-
-
-            IconButton(
-                onClick = {
-                },
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(8.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
-                    contentDescription = "Favorite",
-                )
             }
         }
     }

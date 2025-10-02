@@ -15,10 +15,10 @@ okHttp-version = "5.1.0"
 moshi-version = "1.15.2"
 kotlinx-coroutines-version = "1.10.2"
 coil-version = "2.7.0"
-paging-version = "3.2.1"
-paging-compose-version = "1.0.0"
+paging-version = "3.3.6"
+paging-compose-version = "3.3.6"
 pagingCommon = "3.3.6"
-room = "2.6.0"
+room = "2.8.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -72,6 +72,7 @@ androidx-paging-common = { group = "androidx.paging", name = "paging-common", ve
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

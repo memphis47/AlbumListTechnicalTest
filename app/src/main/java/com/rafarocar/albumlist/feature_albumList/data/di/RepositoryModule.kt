@@ -8,6 +8,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Module to bind the repository implementation
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
