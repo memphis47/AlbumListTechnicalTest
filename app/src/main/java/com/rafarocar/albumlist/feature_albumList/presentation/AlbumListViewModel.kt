@@ -81,7 +81,7 @@ class AlbumListViewModel @Inject constructor(
      * Refresh the albums from the UseCase
      */
 
-    private fun refreshAlbums(){
+    private fun refreshAlbums() {
         viewModelScope.launch {
             try {
                 Log.i(TAG, "Refreshing albums")

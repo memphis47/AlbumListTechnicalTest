@@ -1,6 +1,5 @@
 package com.rafarocar.albumlist.feature_albumList.data.di
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.rafarocar.albumlist.feature_albumList.data.local.AlbumDatabase
