@@ -202,7 +202,12 @@ fun LoadingItem() {
 fun AlbumItem(album: Album, onInfoClick: (String) -> Unit) {
     Card(
         modifier = Modifier
-            .padding(8.dp),
+            .padding(
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 8.dp,
+                top = 8.dp
+            ),
         shape = RoundedCornerShape(8.dp),
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
@@ -212,34 +217,42 @@ fun AlbumItem(album: Album, onInfoClick: (String) -> Unit) {
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.Top,
             ) {
+                val imageSize = 100.dp
                 AsyncImage(
                     model = album.thumbnailURL,
                     contentDescription = album.title,
                     modifier =
                         Modifier
-                            .size(100.dp)
+                            .size(imageSize)
                             .clip(RoundedCornerShape(12.dp))
                 )
 
                 Spacer(
                     modifier = Modifier
-                        .width(8.dp)
+                        .width(16.dp)
                 )
 
                 Column(
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 40.dp)
+                        .height(imageSize)
                 ) {
                     Text(
                         text = album.title,
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Bold
-                        )
+                        ),
                     )
+
+                    Spacer(
+                        modifier = Modifier
+                            .weight(1f)
+                    )
+
                     Text(
                         text = "Album info here",
-                        style = MaterialTheme.typography.bodyMedium.copy(
+                        style = MaterialTheme.typography.titleSmall.copy(
                             color = MaterialTheme.colorScheme.primary,
                             textDecoration = TextDecoration.Underline
                         ),
